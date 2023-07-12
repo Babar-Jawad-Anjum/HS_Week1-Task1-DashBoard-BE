@@ -58,6 +58,7 @@ async function deleteUser(req, res) {
 async function sortUsers(req, res) {
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const size = req.query.size ? parseInt(req.query.size) : 5;
+  const sortType = req.query.sortType;
 
   const skip = (page - 1) * size;
 
@@ -65,7 +66,15 @@ async function sortUsers(req, res) {
 
   const users = await User.find().skip(skip).limit(size);
 
-  const sortedUsers = users.sort((a, b) => a.name.localeCompare(b.name));
+  let sortedUsers = null;
+
+  if (sortType === "sortByName") {
+    sortedUsers = users.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortType === "sortByEmail") {
+    sortedUsers = users.sort((a, b) => a.email.localeCompare(b.email));
+  } else if (sortType === "sortByGender") {
+    sortedUsers = users.sort((a, b) => a.gender.localeCompare(b.gender));
+  }
 
   res.send({ sortedUsers: sortedUsers, totalRecords });
 }

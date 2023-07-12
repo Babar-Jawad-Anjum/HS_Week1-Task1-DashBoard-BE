@@ -25,6 +25,6 @@ router.post("/user/edit/:id", editUser);
 router.delete("/delete/:id", deleteUser);
 
 //Sort Users
-router.get("/sortUsers", sortUsers);
+router.get("/sort", sortUsers);
 
 module.exports = router;
