@@ -22,4 +22,35 @@ async function getProductCategories(req, res) {
   res.send({ categories: distinctCategories });
 }
 
-module.exports = { getProducts, addProduct, getProductCategories };
+//GET SINGLE PRODUCT DETAILS
+async function getProductDetails(req, res) {
+  const id = req.params.id;
+
+  const product = await Product.findById(id);
+
+  res.send({ productDetail: product });
+}
+
+//GET CATEGORY PRODUCTS
+async function getCategoryProducts(req, res) {
+  const category = req.params.category;
+
+  console.log(category);
+  if (category === "All-categories") {
+    const categoryProducts = await Product.find();
+
+    res.send({ categoryProducts: categoryProducts });
+  } else {
+    const categoryProducts = await Product.find({ category: category });
+
+    res.send({ categoryProducts: categoryProducts });
+  }
+}
+
+module.exports = {
+  getProducts,
+  addProduct,
+  getProductCategories,
+  getProductDetails,
+  getCategoryProducts,
+};
